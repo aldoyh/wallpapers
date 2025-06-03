@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let x = gap;
             let y = gap;
 
-            imageUrls.forEach(url => {
+            imageUrls.forEach((url, index) => {
                 const frame = document.createElement('div');
                 frame.className = 'frame';
 
@@ -21,16 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Randomize positions slightly to make it look more natural
                 const randomX = x + (Math.random() - 0.5) * 20;
                 const randomY = y + (Math.random() - 0.5) * 20;
-                frame.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                const z = Math.random() * 1000 - 500; // Add a 3D effect
+                frame.style.transform = `translate3d(${randomX}px, ${randomY}px, ${z}px)`;
+
+                // Adjust the size of the frames to make them look more like paintings
+                const width = 150 + Math.random() * 100;
+                const height = 150 + Math.random() * 100;
+                frame.style.width = `${width}px`;
+                frame.style.height = `${height}px`;
 
                 photoWall.appendChild(frame);
 
-                x += frameWidth + gap;
+                x += width + gap;
 
                 // If the next frame would go off the screen, move to the next row
-                if (x + frameWidth + gap > window.innerWidth) {
+                if (x + width + gap > window.innerWidth) {
                     x = gap;
-                    y += frameHeight + gap;
+                    y += height + gap;
                 }
             });
 
