@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const photoWall = document.getElementById('photo-wall');
     const frameWidth = 220; // Width of the frame including padding and border
     const frameHeight = 220; // Height of the frame including padding and border
-    const gap = 20; // Gap between frames
+    const gap = 50; // Increased gap between frames
 
     fetch('image_urls.json')
         .then(response => response.json())
@@ -18,7 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 img.src = url;
                 frame.appendChild(img);
 
-                frame.style.transform = `translate(${x}px, ${y}px)`;
+                // Randomize positions slightly to make it look more natural
+                const randomX = x + (Math.random() - 0.5) * 20;
+                const randomY = y + (Math.random() - 0.5) * 20;
+                frame.style.transform = `translate(${randomX}px, ${randomY}px)`;
 
                 photoWall.appendChild(frame);
 
