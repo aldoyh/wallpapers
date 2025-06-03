@@ -14,9 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const x = Math.random() * (window.innerWidth - 200);
                 const y = Math.random() * (window.innerHeight - 200);
-                const z = Math.random() * 1000 - 500;
-                const rotation = Math.random() * 360;
-                frame.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotate(${rotation}deg)`;
+                frame.style.transform = `translate(${x}px, ${y}px)`;
 
                 photoWall.appendChild(frame);
             });
