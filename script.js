@@ -93,18 +93,62 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error loading images:', error));
 });
 
-// Simple horizontal panning animation for the gallery wall
+// Smooth panning animation for the gallery wall
 window.addEventListener('DOMContentLoaded', () => {
   const wall = document.querySelector('.gallery-wall');
   let offset = 0;
+  let velocity = 60; // px/sec, initial slow pan
+  let maxOffset = 4200 - window.innerWidth;
+  let minOffset = 0;
+  let lastTime = performance.now();
   let direction = 1;
-  let baseSpeed = 1.2 * 1.5; // 50% faster
-  setInterval(() => {
-    // Add random speed factor (±25%)
-    let speed = baseSpeed * (1 + (Math.random() - 0.5));
-    offset += direction * speed;
-    if (offset > 3200) direction = -1;
-    if (offset < 0) direction = 1;
+  let pauseTimer = 0;
+
+  function randomizeMotion() {
+    // Randomly change speed, direction, and pause
+    if (Math.random() < 0.08) {
+      direction *= -1;
+    }
+    if (Math.random() < 0.15) {
+      velocity = 40 + Math.random() * 80; // 40-120 px/sec
+    }
+    if (Math.random() < 0.07) {
+      pauseTimer = 1200 + Math.random() * 1800; // pause 1.2-3s
+    }
+  }
+
+  function animate() {
+    const now = performance.now();
+    const dt = (now - lastTime) / 1000; // seconds
+    lastTime = now;
+    if (pauseTimer > 0) {
+      pauseTimer -= (dt * 1000);
+      wall.style.transition = 'transform 0.8s cubic-bezier(.77,0,.18,1)';
+      requestAnimationFrame(animate);
+      return;
+    } else {
+      wall.style.transition = 'transform 0.2s cubic-bezier(.77,0,.18,1)';
+    }
+    // Apply velocity
+    offset += direction * velocity * dt;
+    // Clamp offset
+    if (offset < minOffset) {
+      offset = minOffset;
+      direction = 1;
+      randomizeMotion();
+    }
+    if (offset > maxOffset) {
+      offset = maxOffset;
+      direction = -1;
+      randomizeMotion();
+    }
     wall.style.transform = `translateX(${-offset}px)`;
-  }, 30);
+    // Occasionally randomize motion
+    if (Math.random() < 0.02) {
+      randomizeMotion();
+    }
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 });
