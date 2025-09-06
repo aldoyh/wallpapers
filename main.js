@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -47,4 +47,25 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+ipcMain.on('save-image', (event, imageUrl) => {
+  const imagePath = path.join(__dirname, imageUrl);
+  dialog.showSaveDialog({
+    title: 'Save Image',
+    defaultPath: path.join(app.getPath('downloads'), path.basename(imageUrl)),
+    buttonLabel: 'Save',
+    filters: [
+      { name: 'Images', extensions: ['jpg', 'png', 'gif'] }
+    ]
+  }).then(file => {
+    if (!file.canceled) {
+      fs.copyFile(imagePath, file.filePath.toString(), (err) => {
+        if (err) throw err;
+        console.log('Image saved successfully');
+      });
+    }
+  }).catch(err => {
+    console.log(err);
+  });
 });
