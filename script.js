@@ -38,9 +38,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 hook.className = 'frame-hook';
                 const img = document.createElement('img');
                 img.src = url;
+                const saveButton = document.createElement('button');
+                saveButton.innerText = 'Save';
+                saveButton.className = 'save-button';
+                saveButton.onclick = () => {
+                    window.electron.saveImage(url);
+                };
                 frame.appendChild(wire);
                 frame.appendChild(hook);
                 frame.appendChild(img);
+                frame.appendChild(saveButton);
                 wall.appendChild(frame);
             });
             // Distribute the rest in a non-overlapping, gallery style grid
@@ -62,9 +69,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 hook.className = 'frame-hook';
                 const img = document.createElement('img');
                 img.src = url;
+                const saveButton = document.createElement('button');
+                saveButton.innerText = 'Save';
+                saveButton.className = 'save-button';
+                saveButton.onclick = () => {
+                    window.electron.saveImage(url);
+                };
                 frame.appendChild(wire);
                 frame.appendChild(hook);
                 frame.appendChild(img);
+                frame.appendChild(saveButton);
                 wall.appendChild(frame);
                 y += h + gap; // Use increased gap
                 maxY = Math.max(maxY, y);

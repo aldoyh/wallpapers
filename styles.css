@@ -76,6 +76,25 @@ body {
     box-shadow: 0 16px 48px rgba(0,0,0,0.28);
 }
 
+.save-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 3;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.frame:hover .save-button {
+    opacity: 1;
+}
+
 .frame-wire {
     position: absolute;
     left: 50%;
